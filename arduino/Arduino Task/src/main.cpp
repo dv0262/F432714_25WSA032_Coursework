@@ -1,22 +1,22 @@
 #include <Arduino.h>
+// Loovee @ 2015-8-26
+#include <math.h>
+const int B = 4275000; // B value of the thermistor
+const int R0 = 100000; // R0 = 100k
+const int pinTempSensor = A0; // Grove - Temperature Sensor connect to A0
 
-// put function declarations here:
-int myFunction(int, int);
-
-void setup() {
+void setup()
+{
   Serial.begin(9600);
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-  Serial.println(result);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-  Serial.println("Hi!");
-  delay(2000);
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+  int a = analogRead(pinTempSensor);
+  float R = 1023.0/a-1.0;
+  R = R0*R;
+  float temperature = 1.0/(log(R/R0)/B+1/298.15)-273.15; // convert to temperature via datasheet
+  Serial.print("temperature = ");
+  Serial.println(temperature);
+  delay(100);
 }
