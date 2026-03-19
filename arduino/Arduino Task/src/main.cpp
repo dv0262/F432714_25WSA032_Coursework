@@ -8,18 +8,15 @@ const int pinTempSensor = A0; // Grove - Temperature Sensor connect to A0
 void setup()
 {
   Serial.begin(9600);
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-  Serial.println(result);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-  Serial.println("Hi!");
-  delay(2000);
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+  int a = analogRead(pinTempSensor);
+  float R = 1023.0/a-1.0;
+  R = R0*R;
+  float temperature = 1.0/(log(R/R0)/B+1/298.15)-273.15; // convert to temperature via datasheet
+  Serial.print("temperature = ");
+  Serial.println(temperature);
+  delay(100);
 }
